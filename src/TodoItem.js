@@ -1,10 +1,9 @@
-import React, {useState, useContext} from 'react';
-import {Context} from './context';
+import React, { useState, useContext } from 'react';
+import { Context } from './context';
 
-export default function TodoItem({title, id, completed}) {
+export default function TodoItem({ title, id, completed }) {
 
- const [checked, setChecked] = useState(false);
- const {toggleTodo, removeTodo} = useContext(Context);
+  const { dispatch } = useContext(Context);
 
   return (
     <li className={`todo`} >
@@ -12,11 +11,17 @@ export default function TodoItem({title, id, completed}) {
         <input
           type="checkbox"
           checked={completed}
-          onChange={()=>toggleTodo(id)}
+          onChange={() => dispatch({
+            type: 'toggle',
+            payload: id
+          })}
         />
-        <span style={completed ? {textDecoration:'line-through'} : {}}>{title}</span>
+        <span style={completed ? { textDecoration: 'line-through' } : {}}>{title}</span>
 
-        <i onClick={()=>removeTodo(id)}
+        <i onClick={() => dispatch({
+          type: 'remove',
+          payload: id
+        })}
           className="material-icons red-text"
         >
           delete

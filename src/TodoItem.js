@@ -1,16 +1,22 @@
-import React from 'react'
+import React, {useState, useContext} from 'react';
+import {Context} from './context';
 
 export default function TodoItem({title, id, completed}) {
+
+ const [checked, setChecked] = useState(false);
+ const {toggleTodo, removeTodo} = useContext(Context);
+
   return (
-    <li className="todo">
+    <li className={`todo`} >
       <label>
         <input
           type="checkbox"
-          defaultChecked={false}
+          checked={completed}
+          onChange={()=>toggleTodo(id)}
         />
-        <span>{title}</span>
+        <span style={completed ? {textDecoration:'line-through'} : {}}>{title}</span>
 
-        <i
+        <i onClick={()=>removeTodo(id)}
           className="material-icons red-text"
         >
           delete
